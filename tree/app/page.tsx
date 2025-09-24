@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import DopelField from "./components/DopelField";
+import TypingText from "./components/TypingText";
+import CopyButton from "./components/CopyButton";
 
 const ADMIN_PASSWORD = "letmein"; // Change this to your desired admin password
 
@@ -49,7 +51,7 @@ export default function Home() {
       const saved = window.localStorage.getItem("dopel_links");
       if (saved) setLinks(JSON.parse(saved));
     }
-    // eslint-disable-next-line
+    // reading from localStorage only on client
   }, []);
 
   // Auto-save links to localStorage on every change
@@ -65,7 +67,7 @@ export default function Home() {
       const saved = window.localStorage.getItem("dopel_links");
       if (saved) setLinks(JSON.parse(saved));
     }
-    // eslint-disable-next-line
+    // reading from localStorage only on client
   }, []);
 
   const handleLogin = () => {
@@ -129,7 +131,14 @@ export default function Home() {
           </button>
         </div>
   <Image src="/dopel.svg" alt="Logo" width={80} height={80} className="mb-2" />
-  <h1 className="text-3xl font-bold mb-2">THE TWIN.</h1>
+  <h1 className="text-5xl sm:text-6xl font-extrabold leading-none mb-1">
+    <TypingText text="$DOPE" />
+  </h1>
+  <div className="flex items-center gap-2 mb-1 text-xs sm:text-sm text-gray-700">
+    <span className="font-mono break-all">938Yuj2CpqP3BB2nPJXc8iwYDKQws3TPwmLvSHg8pump</span>
+    <CopyButton value="938Yuj2CpqP3BB2nPJXc8iwYDKQws3TPwmLvSHg8pump" label="Copy CA" />
+  </div>
+  <h2 className="text-3xl font-bold mb-2">THE TWIN.</h2>
         <div className="flex flex-col gap-4 w-full">
           {links.map((link: Link, idx: number) => (
             <div key={link.label + idx} className="flex items-center gap-3 border border-black rounded-lg px-4 py-3 text-lg font-medium group bg-white">

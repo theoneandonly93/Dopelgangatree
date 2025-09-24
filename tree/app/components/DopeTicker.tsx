@@ -34,14 +34,8 @@ function formatUsd(n?: number) {
   return `$${val.toFixed(2)}${units[idx]}`;
 }
 
-function formatInt(n?: number) {
-  if (n == null || Number.isNaN(n)) return "-";
-  return new Intl.NumberFormat().format(n);
-}
-
 export default function DopeTicker() {
   const [stats, setStats] = useState<Stats>({ source: "unknown" });
-  const [tick, setTick] = useState(0);
   const intervalRef = useRef<number | null>(null);
 
   const refreshMs = 1_000; // 1s
@@ -57,7 +51,7 @@ export default function DopeTicker() {
       const val = d?.value ?? d?.price ?? d?.priceUsd;
       const n = typeof val === "string" ? Number(val) : val;
       return typeof n === "number" && !Number.isNaN(n) ? n : undefined;
-    } catch (_) {
+    } catch {
       return undefined;
     }
   };
@@ -75,9 +69,20 @@ export default function DopeTicker() {
         marketCapUsd: typeof d?.marketcap === "number" ? d.marketcap : (typeof d?.mc === "number" ? d.mc : undefined),
         volume24hUsd: typeof d?.v24hUsd === "number" ? d.v24hUsd : (typeof d?.volume24h === "number" ? d.volume24h : undefined),
       };
-    } catch (_) {
+    } catch {
       return null;
     }
+  };
+
+  type DexPair = {
+    chainId?: string;
+    liquidity?: { usd?: number } | null;
+    priceUsd?: string | number;
+    marketCap?: string | number;
+    fdv?: string | number;
+    volume?: { h24?: number } | null;
+    volume24h?: number;
+    txns?: { h24?: { buys?: number; sells?: number } } | null;
   };
 
   const fetchFromDexscreener = async (): Promise<Partial<Stats> | null> => {
@@ -85,16 +90,17 @@ export default function DopeTicker() {
       const res = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${MINT}`);
       if (!res.ok) throw new Error(`DexScreener: ${res.status}`);
       const json = await res.json();
-      const pairs: any[] = json?.pairs || [];
+      const pairs: DexPair[] = (json?.pairs as DexPair[]) || [];
       if (!pairs.length) return null;
       // Prefer a Solana pair with highest liquidity
       const solPairs = pairs.filter((p) => p?.chainId === "solana");
       const best = (solPairs.length ? solPairs : pairs).sort((a, b) => (b?.liquidity?.usd || 0) - (a?.liquidity?.usd || 0))[0];
       const priceUsd = Number(best?.priceUsd) || undefined;
       const marketCapUsd = Number(best?.marketCap) || Number(best?.fdv) || undefined;
-      const volume24hUsd = Number(best?.volume?.h24 ?? best?.volume24h ?? best?.txns?.h24?.buys + best?.txns?.h24?.sells) || undefined;
+      const txCount = ((best?.txns?.h24?.buys || 0) + (best?.txns?.h24?.sells || 0)) || undefined;
+      const volume24hUsd = Number(best?.volume?.h24 ?? best?.volume24h ?? txCount) || undefined;
       return { priceUsd, marketCapUsd, volume24hUsd };
-    } catch (_) {
+    } catch {
       return null;
     }
   };
@@ -121,7 +127,6 @@ export default function DopeTicker() {
       merged = { ...fromDex, source: "dexscreener" } as Stats;
     }
     setStats(merged);
-    setTick((t) => t + 1);
   };
 
   useEffect(() => {
