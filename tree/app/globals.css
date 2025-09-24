@@ -24,3 +24,45 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Dopel floating field animations */
+@keyframes dopel-drift-x {
+  0% { transform: translateX(-10vw); }
+  100% { transform: translateX(120vw); }
+}
+@keyframes dopel-bob-y {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-6px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.dopel-drift {
+  will-change: transform;
+  animation-name: dopel-drift-x;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.dopel-bob {
+  will-change: transform, opacity;
+  animation-name: dopel-bob-y;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dopel-drift, .dopel-bob {
+    animation: none !important;
+  }
+}
+
+/* Digital clock-like typography and blink */
+.digital {
+  font-variant-numeric: tabular-nums;
+}
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+.blink {
+  animation: blink 1s step-start infinite;
+}

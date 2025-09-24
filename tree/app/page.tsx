@@ -2,7 +2,9 @@
 
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
+import DopelField from "./components/DopelField";
 
 const ADMIN_PASSWORD = "letmein"; // Change this to your desired admin password
 
@@ -14,8 +16,8 @@ type Link = {
 
 const initialLinks: Link[] = [
   {
-    label: "GitHub",
-    url: "https://github.com/",
+    label: "DopelgangaChat",
+    url: "https://dopelganga.com",
     icon: "/github.svg",
   },
   // Add more links as needed
@@ -112,8 +114,10 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white text-black font-sans">
-      <div className="w-full max-w-md flex flex-col items-center gap-8 p-6">
+    <div className="relative min-h-screen flex flex-col items-center justify-center bg-white text-black font-sans px-3">
+      {/* Floating dopel background */}
+      <DopelField />
+      <div className="relative z-20 w-full max-w-md flex flex-col items-center gap-8 p-6 sm:p-8">
         <div className="flex justify-end w-full">
           <button
             aria-label="Admin login"
@@ -133,13 +137,13 @@ export default function Home() {
               {isAdmin && editIndex === idx ? (
                 <>
                   <input
-                    className="border border-black rounded px-2 py-1 text-base mr-2"
+                    className="border border-black rounded px-2 py-1 text-base mr-2 max-w-[45%] sm:max-w-none"
                     value={editLabel}
                     onChange={e => setEditLabel(e.target.value)}
                     style={{ width: 90 }}
                   />
                   <input
-                    className="border border-black rounded px-2 py-1 text-base mr-2"
+                    className="border border-black rounded px-2 py-1 text-base mr-2 max-w-[45%] sm:max-w-none"
                     value={editUrl}
                     onChange={e => setEditUrl(e.target.value)}
                     style={{ width: 180 }}
@@ -153,7 +157,7 @@ export default function Home() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hover:bg-black hover:text-white transition-colors px-2 py-1 rounded"
+                    className="hover:bg-black hover:text-white transition-colors px-2 py-1 rounded break-words"
                   >
                     {link.label}
                   </a>
@@ -170,33 +174,33 @@ export default function Home() {
         </div>
         {isAdmin && (
           <>
-            <div className="flex gap-2 mt-4 w-full">
+            <div className="flex flex-col sm:flex-row gap-2 mt-4 w-full">
               <input
-                className="border border-black rounded px-2 py-1 flex-1"
+                className="border border-black rounded px-3 py-2 flex-1 min-w-0"
                 placeholder="Label"
                 value={addLabel}
                 onChange={e => setAddLabel(e.target.value)}
               />
               <input
-                className="border border-black rounded px-2 py-1 flex-1"
+                className="border border-black rounded px-3 py-2 flex-1 min-w-0"
                 placeholder="URL"
                 value={addUrl}
                 onChange={e => setAddUrl(e.target.value)}
               />
               <button
-                className="bg-black text-white px-3 py-1 rounded hover:bg-gray-800"
+                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
                 onClick={handleAdd}
               >
                 Add
               </button>
               <button
-                className="bg-green-700 text-white px-3 py-1 rounded hover:bg-green-900 ml-2"
+                className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-900 sm:ml-2"
                 onClick={handleSave}
               >
                 Save
               </button>
               <button
-                className="bg-gray-400 text-black px-3 py-1 rounded hover:bg-gray-600 ml-2"
+                className="bg-gray-400 text-black px-4 py-2 rounded hover:bg-gray-600 sm:ml-2"
                 onClick={handleBack}
               >
                 Back
@@ -249,6 +253,20 @@ export default function Home() {
           </div>
         </div>
       )}
+  <div className="relative z-20 mt-10 flex items-center gap-3 text-sm flex-wrap justify-center">
+        <Link
+          href="/privacy"
+          className="border border-black rounded px-4 py-2 hover:bg-black hover:text-white transition-colors"
+        >
+          Privacy Policy
+        </Link>
+        <Link
+          href="/terms"
+          className="border border-black rounded px-4 py-2 hover:bg-black hover:text-white transition-colors"
+        >
+          Terms
+        </Link>
+      </div>
     </div>
   );
 }
