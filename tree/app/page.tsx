@@ -18,8 +18,8 @@ type Link = {
 
 const initialLinks: Link[] = [
   {
-    label: "DopelgangaChat",
-    url: "https://dopelganga.com",
+    label: "Dope Wallet",
+    url: "https://dopewallet.app",
     icon: "/github.svg",
   },
   // Add more links as needed
