@@ -264,6 +264,7 @@ export default function Home() {
         </div>
       )}
   <div className="relative z-20 mt-10 flex items-center gap-3 text-sm flex-wrap justify-center">
+        {/** Temporarily removed per request
         <Link
           href="/privacy"
           className="border border-black rounded px-4 py-2 hover:bg-black hover:text-white transition-colors"
@@ -276,6 +277,7 @@ export default function Home() {
         >
           Terms
         </Link>
+        */}
         <Link
           href="/whitepaper"
           className="border border-black rounded px-4 py-2 hover:bg-black hover:text-white transition-colors"
