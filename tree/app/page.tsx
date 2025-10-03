@@ -22,8 +22,13 @@ const initialLinks: Link[] = [
     url: "https://dopewallet.app",
     icon: "/github.svg",
   },
-  // Add more links as needed
+  {
+    label: "Dopelganga Netwok",
+    url: "https://dopelganga.com",
+    icon: "/github.svg",
+  },
 ];
+
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
