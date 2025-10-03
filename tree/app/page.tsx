@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent, KeyboardEvent } from "react";
 import DopelField from "./components/DopelField";
 import TypingText from "./components/TypingText";
 import CopyButton from "./components/CopyButton";
@@ -132,11 +132,12 @@ export default function Home() {
         </div>
   <Image src="/dopel.svg" alt="Logo" width={80} height={80} className="mb-2" />
   <h1 className="text-5xl sm:text-6xl font-extrabold leading-none mb-1">
-    <TypingText text="$DOPE" />
+    {/* Changed animated header text from $DOPE to Dopelganga */}
+    <TypingText text="Dopelganga" />
   </h1>
   <div className="flex items-center gap-2 mb-1 text-xs sm:text-sm text-gray-700">
-    <span className="font-mono break-all">938Yuj2CpqP3BB2nPJXc8iwYDKQws3TPwmLvSHg8pump</span>
-    <CopyButton value="938Yuj2CpqP3BB2nPJXc8iwYDKQws3TPwmLvSHg8pump" label="Copy CA" />
+    <span className="font-mono break-all">4R7zJ4JgMz14JCw1JGn81HVrFCAfd2cnCfWvsmqv6xts</span>
+    <CopyButton value="4R7zJ4JgMz14JCw1JGn81HVrFCAfd2cnCfWvsmqv6xts" label="Copy CA" />
   </div>
   <h2 className="text-3xl font-bold mb-2">THE TWIN.</h2>
         <div className="flex flex-col gap-4 w-full">
@@ -148,13 +149,13 @@ export default function Home() {
                   <input
                     className="border border-black rounded px-2 py-1 text-base mr-2 max-w-[45%] sm:max-w-none"
                     value={editLabel}
-                    onChange={e => setEditLabel(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setEditLabel(e.target.value)}
                     style={{ width: 90 }}
                   />
                   <input
                     className="border border-black rounded px-2 py-1 text-base mr-2 max-w-[45%] sm:max-w-none"
                     value={editUrl}
-                    onChange={e => setEditUrl(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setEditUrl(e.target.value)}
                     style={{ width: 180 }}
                   />
                   <button className="text-green-700 font-bold mr-1" onClick={handleEditSave}>Save</button>
@@ -188,13 +189,13 @@ export default function Home() {
                 className="border border-black rounded px-3 py-2 flex-1 min-w-0"
                 placeholder="Label"
                 value={addLabel}
-                onChange={e => setAddLabel(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setAddLabel(e.target.value)}
               />
               <input
                 className="border border-black rounded px-3 py-2 flex-1 min-w-0"
                 placeholder="URL"
                 value={addUrl}
-                onChange={e => setAddUrl(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setAddUrl(e.target.value)}
               />
               <button
                 className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
@@ -232,11 +233,11 @@ export default function Home() {
               className="border border-black rounded px-3 py-2 outline-none"
               autoFocus
               value={password}
-              onChange={e => {
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
                 setPassword(e.target.value);
                 setLoginError("");
               }}
-              onKeyDown={e => {
+              onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
                 if (e.key === "Enter") handleLogin();
               }}
             />
@@ -275,7 +276,51 @@ export default function Home() {
         >
           Terms
         </Link>
+        <Link
+          href="/whitepaper"
+          className="border border-black rounded px-4 py-2 hover:bg-black hover:text-white transition-colors"
+        >
+          Whitepaper
+        </Link>
       </div>
+      {/* Roadmap Section */}
+      <section className="relative z-20 mt-6 max-w-xl mx-auto px-4 text-left">
+        <h3 className="text-2xl font-bold mb-4">Roadmap</h3>
+        <div className="space-y-5 text-sm leading-relaxed">
+          <div>
+            <h4 className="font-semibold text-base mb-1">Q4 2025</h4>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Finalize Wallet MVP with $DWT integration.</li>
+              <li>Launch revamped website: <code>dchat-os85.vercel.app</code>.</li>
+              <li>Release public roadmap, token teaser, and product demo.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-base mb-1">Q1 2026</h4>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Release full Dopelganga Wallet with $DOPE / $DWT support.</li>
+              <li>Distribute airdrops to early $DWT holders.</li>
+              <li>Begin development of Dopelganga Chat prototype powered by $DOPE.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-base mb-1">Q2 2026</h4>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Launch $DOPE mainnet.</li>
+              <li>Release Dopelganga Chat Beta (token-gated features, wallet integration).</li>
+              <li>Onboard first validator cohort.</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-base mb-1">Q3 2026</h4>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Expand ecosystem governance (token-based proposals, DAO tooling).</li>
+              <li>Host community events like the follow-up “Shill & Chill”.</li>
+              <li>Broader integrations with Solana DeFi & consumer dApps.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

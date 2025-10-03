@@ -9,7 +9,7 @@ type Stats = {
   source: "birdeye" | "dexscreener" | "mixed" | "unknown";
 };
 
-const MINT = "938Yuj2CpqP3BB2nPJXc8iwYDKQws3TPwmLvSHg8pump";
+const MINT = "4R7zJ4JgMz14JCw1JGn81HVrFCAfd2cnCfWvsmqv6xts";
 // Prefer env var, but fall back to the provided key if not set
 const BIRDEYE_KEY = process.env.NEXT_PUBLIC_BIRDEYE_API_KEY || "b1d3c0d600e14940aea7845534ee6396";
 const BE_HEADERS: HeadersInit | undefined = BIRDEYE_KEY
